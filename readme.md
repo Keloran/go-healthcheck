@@ -11,6 +11,7 @@ You need to put the following json into your SERVICE_DEPENDENCIES environment se
     "name": <service_name>,
     "url": <service_url>,
     "ping": <is it just a ping test or a full healthcheck>
+  }]
 }
 ```
 
