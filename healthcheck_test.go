@@ -61,7 +61,7 @@ func TestHTTP(t *testing.T) {
 
 	for _, test := range tests {
 		jsonRequest, _ := json.Marshal(test.request)
-		request, _ := http.NewRequest("GIT", "/", bytes.NewBuffer(jsonRequest))
+		request, _ := http.NewRequest("GET", "/", bytes.NewBuffer(jsonRequest))
 		response := httptest.NewRecorder()
 		healthcheck.HTTP(response, request)
 		assert.Equal(t, 200, response.Code)
