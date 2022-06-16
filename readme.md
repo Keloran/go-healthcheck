@@ -17,7 +17,3 @@ You need to put the following json into your SERVICE_DEPENDENCIES environment se
 
 #### Optional Settings
 SERVICE_NAME // sets the name otherwise it is blank
-
-
-## Build
-[![Build Status](https://travis-ci.org/Keloran/go-healthcheck.svg?branch=master)](https://travis-ci.org/Keloran/go-healthcheck)

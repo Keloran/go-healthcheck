@@ -1,0 +1,39 @@
+name: Pull Requests
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  test:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v1
+        with:
+          go-version: 1.16.x
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.46
+          args: --config ./golangci.yml
+      - name: test
+        run: go test -v -race -bench=./... -benchmem -timeout=120s -bench=./... ./...
+  automerge:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    needs: test
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
