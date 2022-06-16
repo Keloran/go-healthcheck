@@ -23,12 +23,12 @@ func TestHealthCheck_Check(t *testing.T) {
 		{
 			request: healthcheck.HealthCheck{
 				Name:         "test1",
-				URL:          "test1.com",
+				URL:          "keloran.dev",
 				Dependencies: "",
 			},
 			expect: healthcheck.Health{
 				Name:         "test1",
-				URL:          "test1.com",
+				URL:          "keloran.dev",
 				Status:       healthcheck.HealthPass,
 				Dependencies: nil,
 			},
@@ -37,17 +37,17 @@ func TestHealthCheck_Check(t *testing.T) {
 		{
 			request: healthcheck.HealthCheck{
 				Name:         "test2",
-				URL:          "test1.com",
-				Dependencies: fmt.Sprintf(`{"dependencies":[{"name":"%s","url":"%s","ping":true}]}`, "test1", "test1.com"),
+				URL:          "keloran.dev",
+				Dependencies: fmt.Sprintf(`{"dependencies":[{"name":"%s","url":"%s","ping":true}]}`, "test1", "keloran.dev"),
 			},
 			expect: healthcheck.Health{
 				Name:   "test2",
-				URL:    "test1.com",
+				URL:    "keloran.dev",
 				Status: healthcheck.HealthPass,
 				Dependencies: []healthcheck.Health{
 					{
 						Name:         "test1",
-						URL:          "test1.com",
+						URL:          "keloran.dev",
 						Status:       "pass",
 						Dependencies: nil,
 					},
