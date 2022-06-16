@@ -30,6 +30,7 @@ func HTTP(w http.ResponseWriter, r *http.Request) {
 		if fErr != nil {
 			fmt.Printf("write response: %v\n", fErr)
 		}
+		fmt.Printf("http health failed: %+v\n", err)
 		return
 	}
 
