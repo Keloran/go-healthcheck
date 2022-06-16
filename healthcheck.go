@@ -28,7 +28,7 @@ func HTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, fErr := w.Write(j)
 		if fErr != nil {
-			fmt.Println(fmt.Sprintf("write response: %v", fErr))
+			fmt.Printf("write response: %v\n", fErr)
 		}
 		return
 	}
@@ -38,7 +38,7 @@ func HTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	_, fErr := w.Write(j)
 	if fErr != nil {
-		fmt.Println(fmt.Sprintf("write response: %v", fErr))
+		fmt.Printf("write response: %v\n", fErr)
 	}
 }
 
@@ -139,6 +139,11 @@ func (d Dependency) curl() (Health, error) {
 		}
 		return h, err
 	}
+
+	defer func() {
+		_ = p.Body.Close()
+	}()
+
 	b, err := ioutil.ReadAll(p.Body)
 	if err != nil {
 		h = Health{
