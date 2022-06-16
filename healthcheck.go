@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/go-ping/ping"
 )
 
 // HTTP the request as done by routing
@@ -112,13 +114,17 @@ func (d Dependency) ping() (Health, error) {
 		Status: HealthFail,
 	}
 
-	p, err := http.Get(h.URL)
+	pinger, err := ping.NewPinger(h.URL)
 	if err != nil {
 		return h, err
 	}
-	if p.StatusCode == http.StatusOK {
-		h.Status = HealthPass
+
+	pinger.Count = 3
+	if err := pinger.Run(); err != nil {
+		return h, err
 	}
+
+	h.Status = HealthPass
 	return h, nil
 }
 
