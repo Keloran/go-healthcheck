@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -90,7 +90,7 @@ func TestHTTP(t *testing.T) {
 		healthcheck.HTTP(response, request)
 		assert.Equal(t, 200, response.Code)
 
-		body, _ := ioutil.ReadAll(response.Body)
+		body, _ := io.ReadAll(response.Body)
 		healthy := healthcheck.Health{}
 		_ = json.Unmarshal(body, &healthy)
 		assert.Equal(t, test.expect, healthy)
