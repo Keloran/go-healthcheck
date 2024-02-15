@@ -65,5 +65,3 @@ version-resolver:
 
 exclude-labels:
   - 'skip-changelog'
-
-change-template: '- [#$NUMBER](https://github.com/keloran/go-healthcheck/pull/$NUMBER) $TITLE (@$AUTHOR)'
