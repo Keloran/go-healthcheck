@@ -72,7 +72,7 @@ func TestHTTP(t *testing.T) {
 		{
 			request: healthcheck.HealthCheck{
 				Name: "test1",
-				URL:  "test1.com",
+				URL:  "chewedfeed.com",
 			},
 			expect: healthcheck.Health{
 				Name:         "test1",
