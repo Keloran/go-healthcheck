@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/go-ping/ping v1.1.0
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.9.0
 )
 
 require (
