@@ -3,7 +3,7 @@ module github.com/keloran/go-healthcheck
 go 1.26.0
 
 require (
-	github.com/go-ping/ping v1.2.0
+	github.com/prometheus-community/pro-bing v0.9.1
 	github.com/stretchr/testify v1.8.3
 )
 

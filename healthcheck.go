@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-ping/ping"
+	probing "github.com/prometheus-community/pro-bing"
 )
 
 // HTTP the request as done by routing
@@ -127,7 +127,7 @@ func (d Dependency) ping() (Health, error) {
 		Status: HealthFail,
 	}
 
-	pinger, err := ping.NewPinger(h.URL)
+	pinger, err := probing.NewPinger(h.URL)
 	if err != nil {
 		return h, err
 	}

@@ -103,7 +103,7 @@ func TestHTTP(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		os.Setenv("SERVICE_NAME", test.request.Name)
+		t.Setenv("SERVICE_NAME", test.request.Name)
 		jsonRequest, _ := json.Marshal(test.request)
 		request, _ := http.NewRequest("GET", "/", bytes.NewBuffer(jsonRequest))
 		response := httptest.NewRecorder()
