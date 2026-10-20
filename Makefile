@@ -3,8 +3,8 @@ export
 
 .PHONY: setup
 setup: ## Get linting stuffs
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint
-	go get golang.org/x/tools/cmd/goimports
+	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.15.0
+	go install golang.org/x/tools/cmd/goimports@latest
 
 .PHONY: test
 test: lint ## Test the app
