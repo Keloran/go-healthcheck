@@ -3,6 +3,7 @@ package healthcheck_test
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -16,6 +17,11 @@ import (
 )
 
 func TestHealthCheck_Check(t *testing.T) {
+	dep := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(`{"name":"test1","url":"dep","status":"pass"}`))
+	}))
+	defer dep.Close()
+
 	tests := []struct {
 		request healthcheck.HealthCheck
 		expect  healthcheck.Health
@@ -39,7 +45,7 @@ func TestHealthCheck_Check(t *testing.T) {
 			request: healthcheck.HealthCheck{
 				Name:         "test2",
 				URL:          "chewedfeed.com",
-				Dependencies: fmt.Sprintf(`{"dependencies":[{"name":"%s","url":"%s","ping":true}]}`, "test1", "chewedfeed.com"),
+				Dependencies: fmt.Sprintf(`{"dependencies":[{"name":"test1","url":"%s"}]}`, dep.URL),
 			},
 			expect: healthcheck.Health{
 				Name:   "test2",
@@ -48,7 +54,7 @@ func TestHealthCheck_Check(t *testing.T) {
 				Dependencies: []healthcheck.Health{
 					{
 						Name:         "test1",
-						URL:          "chewedfeed.com",
+						URL:          "dep",
 						Status:       "pass",
 						Dependencies: nil,
 					},
@@ -63,6 +69,19 @@ func TestHealthCheck_Check(t *testing.T) {
 
 		assert.Equal(t, test.expect, response)
 	}
+}
+
+func TestHealthCheck_Ping(t *testing.T) {
+	hc := healthcheck.HealthCheck{
+		Name:         "svc",
+		Dependencies: `{"dependencies":[{"name":"local","url":"127.0.0.1","ping":true}]}`,
+	}
+	h, err := hc.Check()
+	if errors.Is(err, os.ErrPermission) {
+		t.Skip("ICMP sockets not allowed here (GitHub runners): ", err)
+	}
+	assert.NoError(t, err)
+	assert.Equal(t, healthcheck.HealthPass, h.Status)
 }
 
 func TestHTTP(t *testing.T) {
