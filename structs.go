@@ -25,6 +25,8 @@ type Dependency struct {
 	URL  string `json:"url"`
 	Name string `json:"name"`
 	Ping bool   `json:"ping"`
+	// Type is "postgres" or "valkey" (alias "redis") for a protocol-level check, empty for ping/http
+	Type string `json:"type"`
 }
 
 // HealthStatus define its type
